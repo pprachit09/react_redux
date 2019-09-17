@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { createProject } from '../../store/actions/projectActions'
 
-const CreateProject = () => {
+const CreateProject = ({ createProject }) => {
   const [project, setProject] = useState({
     title: '',
     content: ''
@@ -12,7 +15,7 @@ const CreateProject = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    console.log(project)
+    createProject(project)
   }
 
   return (
@@ -35,4 +38,14 @@ const CreateProject = () => {
   )
 }
 
-export default CreateProject
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createProject: project => dispatch(createProject(project))
+  }
+}
+
+CreateProject.propTypes = {
+  createProject: PropTypes.func
+}
+
+export default connect(null, mapDispatchToProps)(CreateProject)
