@@ -17,7 +17,6 @@ const Navbar = () => {
 }
 
 const mapToState = (state) => {
-  console.log(state)
   return {
     
   }

@@ -7,7 +7,6 @@ const projectReducer = (state = null, action) => {
       console.log(action.err)
       return state
     default:
-      console.log('default')
       return state
   }
 }
