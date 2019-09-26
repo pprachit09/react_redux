@@ -1,12 +1,4 @@
-const initState = {
-  projects: [
-    { title: 'Create react app', content: 'blah blah blah' },
-    { title: 'Add Redux', content: 'blah blah blah' },
-    { title: 'Deploy on Firebase', content: 'blah blah blah' }
-  ]
-}
-
-const projectReducer = (state = initState, action) => {
+const projectReducer = (state = null, action) => {
   switch (action.type) {
     case 'CREATE_PROJECT':
       console.log(action.project)
@@ -15,7 +7,6 @@ const projectReducer = (state = initState, action) => {
       console.log(action.err)
       return state
     default:
-      console.log('default')
       return state
   }
 }
