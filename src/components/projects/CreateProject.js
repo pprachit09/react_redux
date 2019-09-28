@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { createProject } from '../../store/actions/projectActions'
+import { Redirect } from 'react-router-dom'
 
-const CreateProject = ({ createProject }) => {
+const CreateProject = ({ createProject, auth }) => {
   const [project, setProject] = useState({
     title: '',
     content: ''
@@ -17,6 +18,8 @@ const CreateProject = ({ createProject }) => {
     e.preventDefault()
     createProject(project)
   }
+
+  if (!auth.uid) return <Redirect to="/signin" />
 
   return (
     <div className="container">
@@ -38,6 +41,12 @@ const CreateProject = ({ createProject }) => {
   )
 }
 
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     createProject: project => dispatch(createProject(project))
@@ -45,7 +54,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 CreateProject.propTypes = {
-  createProject: PropTypes.func
+  createProject: PropTypes.func,
+  auth: PropTypes.object
 }
 
-export default connect(null, mapDispatchToProps)(CreateProject)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProject)

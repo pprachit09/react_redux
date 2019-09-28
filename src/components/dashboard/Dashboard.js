@@ -5,8 +5,11 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
+import { Redirect } from 'react-router-dom'
 
-const Dashboard = ({ projects }) => {
+const Dashboard = ({ projects, auth }) => {
+  if (!auth.uid) return <Redirect to="/signin" />
+
   return (
     <div className="dashboard container">
       <div className="row">
@@ -24,16 +27,18 @@ const Dashboard = ({ projects }) => {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    projects: state.firestore.ordered.projects
+    projects: state.firestore.ordered.projects,
+    auth: state.firebase.auth
   }
 }
 
 Dashboard.propTypes = {
-  projects: PropTypes.array
+  projects: PropTypes.array,
+  auth: PropTypes.object
 }
 
 export default compose(
-  connect(mapStateToProps, () => {}),
+  connect(mapStateToProps),
   firestoreConnect([
     { collection: 'projects' }
   ])
