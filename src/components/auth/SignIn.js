@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { signIn } from '../../store/actions/authActions'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 
-const SignIn = ({ signIn, authError }) => {
+const SignIn = ({ signIn, authError, auth }) => {
   const [userData, setData] = useState({
     email: '',
     password: ''
@@ -17,6 +18,8 @@ const SignIn = ({ signIn, authError }) => {
     e.preventDefault()
     signIn(userData)
   }
+
+  if (auth.uid) return <Redirect to="/" />
 
   return (
     <div className="container">
@@ -43,7 +46,8 @@ const SignIn = ({ signIn, authError }) => {
 
 const mapStateToProps = (state) => {
   return {
-    authError: state.auth.authError
+    authError: state.auth.authError,
+    auth: state.firebase.auth
   }
 }
 
@@ -55,7 +59,8 @@ const mapDispatchToProps = (dispatch) => {
 
 SignIn.propTypes = {
   signIn: PropTypes.func,
-  authError: PropTypes.string
+  authError: PropTypes.string,
+  auth: PropTypes.object
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn)
