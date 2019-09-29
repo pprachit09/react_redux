@@ -7,3 +7,6 @@ branches:
 script:
   - "yarn run lint"
   - "yarn test"
+
+after_success:
+  - firebase deploy --token $FIREBASE_TOKEN

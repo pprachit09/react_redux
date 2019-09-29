@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { createProject } from '../../store/actions/projectActions'
 import { Redirect } from 'react-router-dom'
 
-const CreateProject = ({ createProject, auth }) => {
+const CreateProject = ({ createProject, auth, history }) => {
   const [project, setProject] = useState({
     title: '',
     content: ''
@@ -17,6 +17,7 @@ const CreateProject = ({ createProject, auth }) => {
   const handleSubmit = e => {
     e.preventDefault()
     createProject(project)
+    history.push('/')
   }
 
   if (!auth.uid) return <Redirect to="/signin" />
@@ -55,7 +56,8 @@ const mapDispatchToProps = (dispatch) => {
 
 CreateProject.propTypes = {
   createProject: PropTypes.func,
-  auth: PropTypes.object
+  auth: PropTypes.object,
+  history: PropTypes.object
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProject)
